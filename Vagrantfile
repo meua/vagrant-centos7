@@ -34,18 +34,21 @@ Vagrant.configure(2) do |config|
   #     sudo yum -y install docker-engine
   	    curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
   	    sudo mkdir -p /etc/docker
-		sudo tee /etc/docker/daemon.json <<-'EOF'
-		{
-		  "registry-mirrors": ["你的阿里云镜像地址"]
-		}
-		EOF
-		sudo systemctl daemon-reload
-		sudo systemctl restart docker
+    		sudo tee /etc/docker/daemon.json <<-'EOF'
+    		{
+    		  "registry-mirrors": ["你的阿里云镜像地址"]
+    		}
+    		EOF
+    		sudo systemctl daemon-reload
+    		sudo systemctl restart docker
         sudo systemctl start docker
         sudo usermod -aG docker vagrant
   #     版本更改为你的docker对应的版本
         sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-		sudo chmod +x /usr/local/bin/docker-compose
+		    sudo chmod +x /usr/local/bin/docker-compose
+        mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+        curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+        yum makecache
      SHELL
    end
 
